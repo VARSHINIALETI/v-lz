@@ -83,7 +83,7 @@ module "businessunit1" {
     
 }
 module "businessunit2" {
-    source = ".modules//contos/workloads/bs2"
+    source = "./modules/contos/workloads/bs2"
     childgroupD2 = var.childgroupD2
     childgroupD0-ID = module.workloads.childgroupD0-ID
     
