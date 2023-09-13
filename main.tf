@@ -33,69 +33,69 @@ provider "azurerm" {
 }*/
 
 module "contos" {
-    source = "./contos"
+    source = "./modules/contos"
     managementgroup = var.managementgroup
     
 }
 module "decom" {
-    source = "./contos/decom"
+    source = "./modules/contos/decom"
     childgroupA0 =var.childgroupA0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
 }
 module "platform" {
-    source = "./contos/platform"
+    source = "./modules/contos/platform"
     childgroupB0 = var.childgroupB0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
     
 }
 module "connectivity" {
-    source = "./contos/platform/connectivity"
+    source = "./modules/contos/platform/connectivity"
     childgroupB1 = var.childgroupB1
     childgroupB0-ID = module.platform.childgroupB0-ID
     
 }
 module "management" {
-    source = "./contos/platform/management"
+    source = "./modules/contos/platform/management"
     childgroupB2 = var.childgroupB2
     childgroupB0-ID = module.platform.childgroupB0-ID 
 }
 module "identity" {
-    source = "./contos/platform/identity"
+    source = "./modules/contos/platform/identity"
     childgroupB3 = var.childgroupB3
     childgroupB0-ID = module.platform.childgroupB0-ID  
 }
 module "sandbox" {
-    source = "./contos/sandbox"
+    source = "./modules/contos/sandbox"
     childgroupC0 = var.childgroupC0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
     
 }
 module "workloads" {
-    source = "./contos/workloads"
+    source = "./modules/contos/workloads"
     childgroupD0 = var.childgroupD0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
     
 }
 module "businessunit1" {
-    source = "./contos/workloads/bs1"
+    source = "./modules/contos/workloads/bs1"
     childgroupD1 = var.childgroupD1
     childgroupD0-ID = module.workloads.childgroupD0-ID
     
 }
 module "businessunit2" {
-    source = "./contos/workloads/bs2"
+    source = ".modules//contos/workloads/bs2"
     childgroupD2 = var.childgroupD2
     childgroupD0-ID = module.workloads.childgroupD0-ID
     
 }
 module "resourcegroup" {
-    source = "./contos/platform/connectivity/resourcegroup"
+    source = "./modules/contos/platform/connectivity/resourcegroup"
     resource-group-name = var.resource-group-name
     location = var.location
     
 }
    module "vnet" {
-        source = "./contos/platform/connectivity/network"
+        source = "./modules/contos/platform/connectivity/network"
         location = module.resourcegroup.location
         resource-group-name = module.resourcegroup.resource-group-name
         vnet-name = var.vnet-name
@@ -104,7 +104,7 @@ module "resourcegroup" {
         subnet-address-prefix = var.subnet-address-prefix
     }
     module "storage" {
-        source = "./contos/platform/connectivity/storage"
+        source = "./modules/contos/platform/connectivity/storage"
         resource-group-name = module.resourcegroup.resource-group-name
         location = module.resourcegroup.location
         primary_database = var.primary_database
@@ -113,7 +113,7 @@ module "resourcegroup" {
         primary_database_version = var.primary_database_version
     }
    module "compute" {
-        source = "./contos/platform/connectivity/compute"
+        source = "./modules/contos/platform/connectivity/compute"
         resource-group-name = module.resourcegroup.resource-group-name
         location = module.resourcegroup.location
         vm_name = var.vm_name
@@ -137,7 +137,7 @@ module "resourcegroup" {
         vnet-name = module.vnet.vnet-name
       }
 module "Key" {
-      source = "./contos/platform/connectivity/key"
+      source = "./modules/contos/platform/connectivity/key"
       app_vault-name = var.app_vault-name
       resource-group-name = module.resourcegroup.resource-group-name
       location = var.location
@@ -153,7 +153,7 @@ module "Key" {
 
     
 module "security_rule" {
-    source = "./contos/platform/connectivity/security"
+    source = "./modules/contos/platform/connectivity/security"
     web-nsg-sr1-name = var.web-nsg-sr1-name
     web-nsg-sr1-priority = var.web-nsg-sr1-priority
     web-nsg-sr1-protocol = var.web-nsg-sr1-protocol
@@ -225,12 +225,12 @@ module "security_rule" {
 }
 
 module "resourcegroup1" {
-    source = "./contos/platform/identity/resourcegroup1"
+    source = "./modules/contos/platform/identity/resourcegroup1"
     resource-group1-name = var.resource-group1-name
     location1 = var.location1 
 }
 module "Networking1" {
-    source = "./contos/platform/identity/network"
+    source = "./modules/contos/platform/identity/network"
     resource-group1-name = module.resourcegroup1.resource-group1-name
     location1 = module.resourcegroup1.location1
     vnet-name = var.vnet-name
@@ -239,7 +239,7 @@ module "Networking1" {
     subnet-address_prefixes = var.subnet-address_prefixes
     }
  module "compute1" {
-        source = "./contos/platform/identity/compute"
+        source = "./modules/contos/platform/identity/compute"
         vm_name = var.vm_name
         vm_sku = var.vm_sku
         NIC_name = var.NIC_name
@@ -260,7 +260,7 @@ module "Networking1" {
         
     }
  module "security_rule1" {
-    source = "./contos/platform/identity/security"
+    source = "./modules/contos/platform/identity/security"
     web-nsg-sr1-name = var.web-nsg-sr1-name
     web-nsg-sr1-priority = var.web-nsg-sr1-priority
     web-nsg-sr1-protocol = var.web-nsg-sr1-protocol
@@ -322,7 +322,7 @@ module "Networking1" {
 }
 
  module "storage1" {
-        source = "./contos/platform/identity/storage"
+        source = "./modules/contos/platform/identity/storage"
         resource-group1-name = module.resourcegroup1.resource-group1-name
         location1 = module.resourcegroup1.location1
         primary_database1 = var.primary_database1
